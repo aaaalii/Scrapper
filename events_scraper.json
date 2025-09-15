@@ -1,0 +1,766 @@
+{
+  "name": "Events scraper",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        580,
+        20
+      ],
+      "id": "7579de62-e1cb-4b03-9108-6db93c03479a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM",
+          "mode": "list",
+          "cachedResultName": "Event Scraper",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically",
+              "readRowsUntil": "firstEmptyRow"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        800,
+        20
+      ],
+      "id": "b813603a-ae5f-4e6d-8bf7-8a1be0ddaf4e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wtZLTJm3U6Va0k3W",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "94d9cf28-8461-414a-bc74-2b77e8f947e0",
+              "name": "url",
+              "value": "={{ $json.Links }}",
+              "type": "string"
+            },
+            {
+              "id": "7634df78-deda-4a4d-8777-23c7e2734b18",
+              "name": "method",
+              "value": "GET",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1020,
+        20
+      ],
+      "id": "aa99d03e-6d85-4e0c-ac71-0b158a9ccf0f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/apify~website-content-crawler/run-sync-get-dataset-items?token=",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"aggressivePrune\": false,\n  \"blockMedia\": false,\n  \"crawlerType\": \"playwright:adaptive\",\n  \"debugLog\": false,\n  \"debugMode\": false,\n  \"expandIframes\": true,\n  \"ignoreCanonicalUrl\": false,\n  \"ignoreHttpsErrors\": false,\n  \"keepUrlFragments\": false,\n  \"maxCrawlDepth\": 0,\n  \"maxCrawlPages\": 99999,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true\n  },\n  \"removeCookieWarnings\": true,\n  \"respectRobotsTxtFile\": false,\n  \"saveFiles\": true,\n  \"saveHtml\": true,\n  \"saveHtmlAsFile\": false,\n  \"saveMarkdown\": true,\n  \"saveScreenshots\": false,\n  \"startUrls\": [{{ $json.toJsonString() }}],\n  \"useSitemaps\": false,\n  \"includeUrlGlobs\": [],\n  \"excludeUrlGlobs\": [],\n  \"initialConcurrency\": 0,\n  \"maxConcurrency\": 200,\n  \"initialCookies\": [],\n  \"maxSessionRotations\": 10,\n  \"maxRequestRetries\": 3,\n  \"requestTimeoutSecs\": 60,\n  \"minFileDownloadSpeedKBps\": 128,\n  \"dynamicContentWaitSecs\": 10,\n  \"waitForSelector\": \"\",\n  \"softWaitForSelector\": \"\",\n  \"maxScrollHeightPixels\": 5000,\n  \"keepElementsCssSelector\": \"div[class*=\\\"event\\\"],\\ndiv[class*=\\\"events\\\"],\\ndiv[id*=\\\"event\\\"],\\ndiv[id*=\\\"events\\\"]\",\n  \"clickElementsCssSelector\": \"[aria-expanded=\\\"true\\\"]\",\n  \"htmlTransformer\": \"readableText\",\n  \"readableTextCharThreshold\": 100,\n  \"maxResults\": 9999999,\n  \"clientSideMinChangePercentage\": 15,\n  \"renderingTypeDetectionPercentage\": 10,\n   \"removeElementsCssSelector\": \"div[class*=\\\"past\\\"],\\ndiv[id*=\\\"past\\\"],\\ndiv[class*=\\\"previous\\\"],\\ndiv[id*=\\\"previous\\\"],\\ndiv[class*=\\\"old\\\"],\\ndiv[id*=\\\"old\\\"],\\ndiv[class*=\\\"earlier\\\"],\\ndiv[id*=\\\"earlier\\\"],\\ndiv[class*=\\\"prior\\\"],\\ndiv[id*=\\\"prior\\\"],\\ndiv[class*=\\\"ended\\\"],\\ndiv[id*=\\\"ended\\\"],\\ndiv[class*=\\\"expired\\\"],\\ndiv[id*=\\\"expired\\\"],\\ndiv[class*=\\\"archived\\\"],\\ndiv[id*=\\\"archived\\\"],\\ndiv[class*=\\\"inactive\\\"],\\ndiv[id*=\\\"inactive\\\"],\\ndiv[class*=\\\"former\\\"],\\ndiv[id*=\\\"former\\\"],\\ndiv[class*=\\\"history\\\"],\\ndiv[id*=\\\"history\\\"]\\n\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        200
+      ],
+      "id": "8e8b3727-5bcd-4d27-9f3c-3f23cac75871",
+      "name": "HTTP Request",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/apify~website-content-crawler/runs?token=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        -260
+      ],
+      "id": "04ed1a93-a2aa-47f1-8763-c5f437988910",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        20
+      ],
+      "id": "fdcb10e7-7880-4891-849e-765b2fb4168e",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM",
+          "mode": "list",
+          "cachedResultName": "Event Scraper",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1031093315,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM/edit#gid=1031093315"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "site_link": "={{ $json.site_name }}",
+            "event_date": "={{ $json.event_date }}",
+            "event_name": "={{ $json.event_name }}",
+            "event_link": "={{ $json.event_link }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "site_link",
+              "displayName": "site_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "event_name",
+              "displayName": "event_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "event_date",
+              "displayName": "event_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "event_link",
+              "displayName": "event_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2020,
+        -240
+      ],
+      "id": "bb89f8f7-a2d4-4aa6-ac53-fb86f8ad8af6",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wtZLTJm3U6Va0k3W",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aaa186e1-c08e-4dae-9c0e-61f5454f3a33",
+              "name": "events",
+              "value": "={{ $json.message.content.events }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3300,
+        0
+      ],
+      "id": "a75f56d7-bc1c-4058-8f60-83292c85c2e5",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "events",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3680,
+        0
+      ],
+      "id": "64cb5686-a793-4e49-b884-8887221486b7",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM",
+          "mode": "list",
+          "cachedResultName": "Event Scraper",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1031093315,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1WE5JECD5uIUEmNfGuQgbEMs2ITZpcXJFgtsYhTHTkGM/edit#gid=1031093315"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "event_link": "={{ $json.event_link }}",
+            "site_link": "={{ $json.site_name }}",
+            "event_name": "={{ $json.event_name }}",
+            "event_date": "={{ $json.event_date }}"
+          },
+          "matchingColumns": [
+            "event_link"
+          ],
+          "schema": [
+            {
+              "id": "site_link",
+              "displayName": "site_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "event_name",
+              "displayName": "event_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "event_date",
+              "displayName": "event_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "event_link",
+              "displayName": "event_link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "scraped_at",
+              "displayName": "scraped_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        3900,
+        0
+      ],
+      "id": "09c71a15-1123-4d63-b777-94855f654308",
+      "name": "Google Sheets2",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wtZLTJm3U6Va0k3W",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/apify~website-content-crawler/runs?token=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        -260
+      ],
+      "id": "cd5d842c-85cf-4820-964b-776c9b7356e7",
+      "name": "HTTP Request2",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n provides items[] as input, so we need to work with it properly\n// Assuming the HTTP Request Node (GET /runs) output is in items[0].json.data.items\n\n// Extract all runs from the input JSON\nconst allRuns = items[0].json.data.items;\n\n// Filter only SUCCEEDED runs\nconst succeededRuns = allRuns.filter(run => run.status === 'SUCCEEDED');\n\n// Sort by startedAt (latest first)\nsucceededRuns.sort((a, b) => new Date(b.startedAt) - new Date(a.startedAt));\n\n// Get the latest run\nconst latestRun = succeededRuns[0];\n\n// Return the latest run's details\nreturn [\n  {\n    json: {\n      id: latestRun.id,\n      datasetId: latestRun.defaultDatasetId,\n      startedAt: latestRun.startedAt,\n      finishedAt: latestRun.finishedAt,\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        -260
+      ],
+      "id": "938acc16-0368-42ae-a7e2-96b0886c00c5",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{$json[\"datasetId\"]}}/items?token=&format=json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        620,
+        -260
+      ],
+      "id": "d366feab-a52d-4fbd-891a-6ab2c2faaa73",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ab35f467-0558-4439-9911-20052ae3c8ad",
+              "name": "metadata",
+              "value": "={{ $json.html }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2420,
+        0
+      ],
+      "id": "4159f1cb-c2c5-4e2e-a21d-f103db69ebb5",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "624bad11-3c80-47f8-8b2a-8a3387b21159",
+              "name": "jsonLd",
+              "value": "={{ $json.metadata. }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2360,
+        -240
+      ],
+      "id": "1c3f3f5d-7109-4a55-af4e-0ee527b9b05f",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You will be given a JSON object containing the scraped HTML content of a webpage with events details in it. Your task is to extract all **upcoming/ future events** from the page.\n\nCurrent date in UTC: {{ $now.toUTC() }}\n\nFor **each event**, extract the following:\n- event_name\n- event_date (in ISO format: YYYY-MM-DD, or null if not available)\n- event_link (absolute URL; must be from the same domain as the site)\n- site_name (domain of the website)\n\n### Rules:\n- You **must extract all future events** present in the content. Do not skip any.\n- If the date is in the past, **skip the event**.\n- If the date is not explicitly stated, try to infer it from context, or use `null`.\n- If event link is relative, construct the full absolute URL using the site domain.\n- Output an array of events in **strict JSON format**.\n\n### Output format:\n```json\n[\n  \"events\": {\n    \"event_name\": \"Sample Event\",\n    \"event_date\": \"2025-08-10\",\n    \"event_link\": \"https://example.com/events/123\",\n    \"site_name\": \"example.com\"\n  },\n  ...\n]\n",
+              "role": "system"
+            },
+            {
+              "content": "=Website Content:\n{{ $json.toJsonString() }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2820,
+        0
+      ],
+      "id": "82e135f0-71cb-4402-ae64-05923daa43f9",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "wO54su9y3YotgdpN",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer "
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "o4-mini"
+            },
+            {
+              "name": "messages",
+              "value": "=[\n    { role: \"system\", content: \"You will be given a JSON object containing the scraped HTML content of a webpage with events details in it. Your task is to extract all **upcoming/ future events** from the page.\n\nCurrent date in UTC: {{ $now.toUTC() }}\n\nFor **each event**, extract the following:\n- event_name\n- event_date (in ISO format: YYYY-MM-DD, or null if not available)\n- event_link (absolute URL; must be from the same domain as the site)\n- site_name (domain of the website)\n\n### Rules:\n- You **must extract all future events** present in the content. Do not skip any.\n- If the date is in the past, **skip the event**.\n- If the date is not explicitly stated, try to infer it from context, or use `null`.\n- If event link is relative, construct the full absolute URL using the site domain.\n- Output an array of events in **strict JSON format**.\n\n### Output format:\n```json\n[\n  {\n    \"event_name\": \"Sample Event\",\n    \"event_date\": \"2025-08-10\",\n    \"event_link\": \"https://example.com/events/123\",\n    \"site_name\": \"example.com\"\n  },\n  ...\n]\n\" },\n    { role: \"user\",   content: \"Website Content:\n{{ $json.toJsonString() }}\" }\n]"
+            },
+            {
+              "name": "temperature",
+              "value": "0.7"
+            },
+            {
+              "name": "max_tokens",
+              "value": "256"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3080,
+        -240
+      ],
+      "id": "2bd1b90b-7638-4e60-bd7f-d771aa0b34a5",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        20
+      ],
+      "id": "e33c637f-f755-4004-86f3-cb5905e443e3",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1780,
+        20
+      ],
+      "id": "7d14c119-4b04-4fb0-880d-2ce27efd0285",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23bc8799-7529-4a2a-a202-734015a3b24e",
+              "name": "",
+              "value": "[   {     \"event_name\": \"The Dinner Detective – Atlanta, GA – Sat 8/2/25\",     \"event_date\": \"2025-08-02\",     \"event_link\": \"https://tickets-atl.thedinnerdetective.com/checkout/view-event/id/6251126/chk/4072/\",     \"site_name\": \"thedinnerdetective.com\"   },   {     \"event_name\": \"The Dinner Detective – Atlanta, GA – Sat 8/23/25\",     \"event_date\": \"2025-08-23\",     \"event_link\": \"https://tickets-atl.thedinnerdetective.com/checkout/view-event/id/6251127/chk/1fb6/\",     \"site_name\": \"thedinnerdetective.com\"   },   {     \"event_name\": \"The Dinner Detective – Atlanta, GA – Sat 9/13/25\",     \"event_date\": \"2025-09-13\",     \"event_link\": \"https://tickets-atl.thedinnerdetective.com/checkout/view-event/id/6251128/chk/8890/\",     \"site_name\": \"thedinnerdetective.com\"   },   {     \"event_name\": \"The Dinner Detective – Atlanta, GA – Sat 9/27/25\",     \"event_date\": \"2025-09-27\",     \"event_link\": \"https://tickets-atl.thedinnerdetective.com/checkout/view-event/id/6251129/chk/ac13/\",     \"site_name\": \"thedinnerdetective.com\"   },   {     \"event_name\": \"The Dinner Detective – Atlanta, GA – Sat 10/11/25\",     \"event_date\": \"2025-10-11\",     \"event_link\": \"https://tickets-atl.thedinnerdetective.com/checkout/view-event/id/6251136/chk/2235/\",     \"site_name\": \"thedinnerdetective.com\"   },   {     \"event_name\": \"The Dinner Detective – Atlanta, GA – Sat 10/25/25\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://tickets-atl.thedinnerdetective.com/checkout/view-event/id/6251137/chk/4efc/\",     \"site_name\": \"thedinnerdetective.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Downtown Tampa\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-downtown-tampa-tickets-1534102364469\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - South Tampa\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-south-tampa-tickets-1534098833909\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Charlotte (South End)\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-charlotte-south-end-tickets-1534084872149\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Pittsburgh (South Side)\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-pittsburgh-south-side-tickets-1531158208419\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Jacksonville (Riverside)\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-jacksonville-riverside-tickets-1513838705319\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Jacksonville Beach\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-jacksonville-beach-tickets-1520361986629\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Houston (Midtown)\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-houston-midtown-tickets-1511003364739\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Fort Lauderdale\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-fort-lauderdale-tickets-1538308384789\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Miami (Wynwood)\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-miami-wynwood-tickets-1544724696149\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Halloween Bar Crawl 10/25 - Seattle (Belltown)\",     \"event_date\": \"2025-10-25\",     \"event_link\": \"https://www.eventbrite.com/e/halloween-bar-crawl-1025-seattle-belltown-tickets-1542599479569\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"2nd Annual Halfway to Gasparilla Party & Bar Crawl (Yeoman's)\",     \"event_date\": \"2025-07-26\",     \"event_link\": \"https://www.eventbrite.com/e/2nd-annual-halfway-to-gasparilla-party-bar-crawl-yeomans-tickets-1497690686159\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"2nd Annual Halfway to Gasparilla Party w/Brunch (Morgan's Cove & Yeoman's)\",     \"event_date\": \"2025-07-26\",     \"event_link\": \"https://www.eventbrite.com/e/2nd-annual-halfway-to-gasparilla-party-wbrunch-morgans-cove-yeomans-tickets-1431707568879\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Celebrate Cinco de Mayo in style! Fiesta & Bar Crawl - Pittsburgh\",     \"event_date\": \"2025-05-04\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-fiesta-tacos-bar-crawl-pittsburgh-south-side-tickets-1317924952009\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Cinco de Mayo Fiesta & Bar Crawl - Jacksonville\",     \"event_date\": \"2025-05-04\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-fiesta-bar-crawl-jacksonville-beach-tickets-1325498825669\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Cinco de Mayo Fiesta & Bar Crawl - Scottsdale (Old Town)\",     \"event_date\": \"2025-05-03\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-fiesta-bar-crawl-scottsdale-old-town-tickets-1311237760439\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Cinco de Mayo Fiesta & Bar Crawl - Houston (Midtown)\",     \"event_date\": \"2025-05-03\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-fiesta-bar-crawl-houston-midtown-tickets-1313121374379\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Cinco de Mayo Fiesta & Bar Crawl - Fort Lauderdale (Las Olas)\",     \"event_date\": \"2025-05-03\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-fiesta-bar-crawl-ftlauderdale-las-olas-tickets-1312392383949\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Cinco de Mayo Tacos, Tequila Fiesta & Bar Crawl - TAMPA (Bar Hwrd)\",     \"event_date\": \"2025-05-03\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-tacos-tequila-fiesta-bar-crawl-tampa-ybor-city-tickets-1312369435309\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Cinco de Mayo Tacos, Tequila Fiesta & Bar Crawl - TAMPA (Maloney's)\",     \"event_date\": \"2025-05-03\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-tacos-tequila-fiesta-bar-crawl-maloneys-tickets-1311063870329\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Cinco de Mayo Tacos, Tequila Fiesta & Bar Crawl - ST.PETE (Tequila Daisy)\",     \"event_date\": \"2025-05-03\",     \"event_link\": \"https://www.eventbrite.com/e/cinco-de-mayo-tacos-tequila-fiesta-bar-crawl-stpete-tequila-daisy-tickets-1317450823879\",     \"site_name\": \"eventbrite.com\"   },   {     \"event_name\": \"Whiskey + Laughs Wednesdays\",     \"event_date\": \"2025-07-02\",     \"event_link\": \"https://fortworth.blcomedy.com/events/whiskey-laughs-wednesdays-2025-07-02200000\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"The Big American Comedy Bash\",     \"event_date\": \"2025-07-04\",     \"event_link\": \"https://fortworth.blcomedy.com/events/the-big-american-comedy-bash\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"The Big American After-Party: Late Night Comedy Show\",     \"event_date\": \"2025-07-04\",     \"event_link\": \"https://fortworth.blcomedy.com/events/the-big-american-after-party-late-night-comedy-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Jokemaster: Comedy Competition\",     \"event_date\": \"2025-07-05\",     \"event_link\": \"https://fortworth.blcomedy.com/events/jokemaster-comedy-competition\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Stand Up Stand Outs\",     \"event_date\": \"2025-07-05\",     \"event_link\": \"https://fortworth.blcomedy.com/events/stand-up-stand-outs\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Triple Threat Comedy Show\",     \"event_date\": \"2025-07-11\",     \"event_link\": \"https://fortworth.blcomedy.com/events/triple-threat-comedy-show-july\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"The Big Laugh Open Mic\",     \"event_date\": \"2025-07-11\",     \"event_link\": \"https://fortworth.blcomedy.com/events/the-big-laugh-open-mic-2025-07-11193000\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Carter Gagnon: Live in Fort Worth \",     \"event_date\": \"2025-07-10\",     \"event_link\": \"https://fortworth.blcomedy.com/events/mark-gagnon-live-in-fort-worth\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"More About Dexter\",     \"event_date\": \"2025-07-17\",     \"event_link\": \"https://fortworth.blcomedy.com/events/dexter-c-givens-jr-live-in-fort-worth\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"The Royal Stand Up Game Show\",     \"event_date\": \"2025-07-16\",     \"event_link\": \"https://fortworth.blcomedy.com/events/the-royal-stand-up-game-show-2025-07-03232412\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Jokemaster: Comedy Competition\",     \"event_date\": \"2025-07-17\",     \"event_link\": \"https://fortworth.blcomedy.com/events/jokemaster-comedy-competition-2025-06-22161124\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Rich Vos Live In Fort Worth [Early Fri Show]\",     \"event_date\": \"2025-07-24\",     \"event_link\": \"https://fortworth.blcomedy.com/events/rich-vos-live-in-fort-worth-early-fri-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Jokemaster: Comedy Competition\",     \"event_date\": \"2025-07-24\",     \"event_link\": \"https://fortworth.blcomedy.com/events/jokemaster-comedy-competition-4\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"More Jokes From “K-von”\",     \"event_date\": \"2025-07-23\",     \"event_link\": \"https://fortworth.blcomedy.com/events/k-von-live-in-fort-worth\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"K-von: Live In Fort Worth\",     \"event_date\": \"2025-07-23\",     \"event_link\": \"https://fortworth.blcomedy.com/events/k-von-live-in-fort-worth\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Sara Weinshenk: Live In Fort Worth [Early Fri Show]\",     \"event_date\": \"2025-07-25\",     \"event_link\": \"https://fortworth.blcomedy.com/events/sara-weinshenk-live-in-fort-worth-early-fri-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Sara Weinshenk: Live In Fort Worth [Late Fri Show]\",     \"event_date\": \"2025-07-25\",     \"event_link\": \"https://fortworth.blcomedy.com/events/sara-weinshenk-live-in-fort-worth-late-fri-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"More Jokes From &quot;Sara&quot;\",     \"event_date\": \"2025-07-25\",     \"event_link\": \"https://fortworth.blcomedy.com/events/sara-weinshenk-live-in-fort-worth-late-fri-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"The After Roast Comedy Show\",     \"event_date\": \"2025-07-18\",     \"event_link\": \"https://fortworth.blcomedy.com/events/the-after-roast-comedy-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"The Punch Up\",     \"event_date\": \"2025-07-30\",     \"event_link\": \"https://fortworth.blcomedy.com/events/the-punch-up\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Rich Vos Live In Fort Worth [Late Sat Show]\",     \"event_date\": \"2025-07-26\",     \"event_link\": \"https://fortworth.blcomedy.com/events/rich-vos-live-in-fort-worth-late-sat-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Sunday Funday: The Hangover Show\",     \"event_date\": \"2025-07-13\",     \"event_link\": \"https://fortworth.blcomedy.com/events/sunday-funday-the-hangover-show\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Sunday Funday Comedy Jam\",     \"event_date\": \"2025-07-20\",     \"event_link\": \"https://fortworth.blcomedy.com/events/sunday-funday-comedy-jam\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"The Punch Up\",     \"event_date\": \"2025-07-30\",     \"event_link\": \"https://fortworth.blcomedy.com/events/the-punch-up\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Weekend Comedy Extravaganza\",     \"event_date\": \"2025-07-18\",     \"event_link\": \"https://fortworth.blcomedy.com/events/weekend-comedy-extravaganza\",     \"site_name\": \"fortworth.blcomedy.com\"   },   {     \"event_name\": \"Summer Music Festival\",     \"event_date\": \"2025-08-15\",     \"event_link\": \"https://musicfest.com/register\",     \"site_name\": \"musicfest.com\"   },   {     \"event_name\": \"Annual Tech Conference\",     \"event_date\": \"2025-09-10\",     \"event_link\": \"https://techconf.com/register\",     \"site_name\": \"techconf.com\"   },   {     \"event_name\": \"Past Event Example\",     \"event_date\": \"2024-12-01\",     \"event_link\": \"https://example.com/past-event\",     \"site_name\": \"example.com\"   },   {     \"event_name\": \"Upcoming Art Workshop\",     \"event_date\": \"2025-07-30\",     \"event_link\": \"https://artstudio.com/register\",     \"site_name\": \"artstudio.com\"   },   {     \"event_name\": \"Literature Retreat\",     \"event_date\": \"2025-10-05\",     \"event_link\": \"https://literature.com/register\",     \"site_name\": \"literature.com\"   },   {     \"event_name\": \"Past Beginner Workshop\",     \"event_date\": \"2025-07-20\",     \"event_link\": \"https://workshops.com/beginner\",     \"site_name\": \"workshops.com\"   } ]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        780,
+        -1560
+      ],
+      "id": "cfcb6a32-b14c-489c-b1b6-ccffbbe763bd",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "jsCode": "let input = null;\n\n// Try all likely places for the empty string key\nif (items[0][\"\"]) {\n  input = items[0][\"\"];\n} else if (items[0].json && items[0].json[\"\"]) {\n  input = items[0].json[\"\"];\n} else {\n  throw new Error(\"Could not find data array with empty string key!\");\n}\n\nreturn input.map(obj => ({ json: obj }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        980,
+        -1560
+      ],
+      "id": "55332492-d236-4e8d-b351-f054b172ea4d",
+      "name": "Code2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9f4401a2-8ec1-4d8d-b76f-8d2b9b1aece0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "97481c59524931a4b36e078fa033572789a88c5b892af867e49f24d9006c15e7"
+  },
+  "id": "zVa7MYqF5rqt3vNY",
+  "tags": []
+}
